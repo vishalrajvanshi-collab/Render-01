@@ -1,0 +1,43 @@
+
+services:
+  # Existing gaming server terminal — unchanged
+  my-gotty:
+    hostname: mygotty
+    image: lapio-plays:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8989:8080"
+    tty: true
+    stdin_open: true
+    restart: always
+
+  # HealthLog — one container, external Aiven database
+  healthlog-server:
+    image: ghcr.io/mbombeck/healthlog:latest
+    container_name: healthlog_app
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in .env}"
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY:?Set ENCRYPTION_KEY in .env}"
+      API_TOKEN_HMAC_KEY: "${API_TOKEN_HMAC_KEY:?Set API_TOKEN_HMAC_KEY in .env}"
+      APP_MEMORY_LIMIT: "1536m"
+      DB_CONNECTION_LIMIT: "5"
+      PASSWORD_BREACH_CHECK_DISABLED: "1"
+      UPDATE_CHECK_DISABLED: "1"
+      IP_GEO_LOOKUP_DISABLED: "1"
+      ENVIRONMENT_AIR_QUALITY_DISABLED: "1"
+      LOG_LEVEL: "error"
+      SESSION_COOKIE_SECURE: "true"
+      DATABASE_STATEMENT_TIMEOUT_MS: "60000"
+      NODE_OPTIONS: "--max-http-header-size=1048576 --max-old-space-size=1024"
+      BODY_PARSER_LIMIT: "100mb"
+      SERVER_TIMEOUT: "600000"
+    mem_limit: "${APP_MEMORY_LIMIT:-4g}"
