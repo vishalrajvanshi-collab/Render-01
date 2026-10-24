@@ -8,8 +8,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-       - "${SERVER_PORT}:${SERVER_PORT}"
-   #   - "8989:8080"
+      
+      - "8989:8080"
     tty: true
     stdin_open: true
     restart: always
@@ -21,8 +21,7 @@ services:
     restart: unless-stopped
     pull_policy: always
     ports:
-       - "3000:3000"
-    #  - "127.0.0.1:3000:3000"
+      - "127.0.0.1:3000:3000"
     env_file:
       - .env
     environment:
