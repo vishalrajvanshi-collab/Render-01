@@ -8,7 +8,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8989:8080"
+       - "${SERVER_PORT}:${SERVER_PORT}"
+   #   - "8989:8080"
     tty: true
     stdin_open: true
     restart: always
