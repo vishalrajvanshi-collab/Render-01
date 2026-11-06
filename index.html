@@ -1,0 +1,31 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>GoTTY</title>
+    <style>
+      html, body, #terminal {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+
+      #terminal iframe {
+        height: 100% !important;
+        min-height: 100% !important;
+        max-height: none !important;
+        width: 100% !important;
+        display: block;
+        border: 0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="favicon.png">
+  </head>
+  <body>
+    <div id="terminal"></div>
+    <script src="./js/hterm.js"></script>
+    <script src="./auth_token.js"></script>
+    <script src="./js/gotty.js"></script>
+  </body>
+</html>
